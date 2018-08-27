@@ -112,7 +112,7 @@ struct Param
     // 2: informational warnings (no errors)
     char warnings;
     bool pic;           // generate position-independent-code for shared libs
-    bool color;         // use ANSI colors in console output
+    unsigned color;     // use ANSI colors in console output
     bool cov;           // generate code coverage data
     unsigned char covPercent;   // 0..100 code coverage percentage required
     bool nofloat;       // code should not pull in floating point support

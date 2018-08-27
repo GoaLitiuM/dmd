@@ -82,6 +82,16 @@ enum JsonFieldFlags : uint
     semantics    = (1 << 3),
 }
 
+/**
+Console color output modes.
+*/
+enum ColorOutput
+{
+    off,
+    on,
+    always, // same as 'on' when console is not detected
+}
+
 // Put command line switches in here
 struct Param
 {
@@ -134,7 +144,7 @@ struct Param
     // 2: informational warnings (no errors)
     byte warnings;
     bool pic;               // generate position-independent-code for shared libs
-    bool color = true;      // use ANSI colors in console output
+    ColorOutput color = ColorOutput.on;  // use ANSI colors in console output
     bool cov;               // generate code coverage data
     ubyte covPercent;       // 0..100 code coverage percentage required
     bool nofloat;           // code should not pull in floating point support

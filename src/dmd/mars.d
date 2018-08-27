@@ -354,8 +354,8 @@ private int tryMain(size_t argc, const(char)** argv)
         return EXIT_SUCCESS;
     }
 
-    if (global.params.color)
-        global.console = Console.create(core.stdc.stdio.stderr);
+    if (global.params.color != ColorOutput.off)
+        global.console = cast(void*)Console.create(core.stdc.stdio.stderr, global.params.color == ColorOutput.always);
 
     global.params.cpu = setTargetCPU(global.params.cpu);
     if (global.params.is64bit != is64bit)
@@ -1589,14 +1589,16 @@ private bool parseCommandLine(const ref Strings arguments, const size_t argc, re
                 params.link = false;
             else if (startsWith(p + 1, "color")) // https://dlang.org/dmd.html#switch-color
             {
-                params.color = true;
+                params.color = ColorOutput.on;
                 // Parse:
                 //      -color
-                //      -color=on|off
+                //      -color=on|always|off
                 if (p[6] == '=')
                 {
                     if (strcmp(p + 7, "off") == 0)
-                        params.color = false;
+                        params.color = ColorOutput.off;
+                    else if (strcmp(p + 7, "always") == 0)
+                        params.color = ColorOutput.always;
                     else if (strcmp(p + 7, "on") != 0)
                         goto Lerror;
                 }
