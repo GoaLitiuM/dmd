@@ -634,6 +634,9 @@ void parseEnvironment()
     auto generated = env["GENERATED"] = srcDir.dirName.buildPath("generated");
     auto g = env["G"] = generated.buildPath(os, build, model);
     mkdirRecurse(g);
+	
+	import std.stdio : writeln;
+	writeln("G: ", env["G"]);
 
     if (env.get("HOST_DMD", null).length == 0)
     {
