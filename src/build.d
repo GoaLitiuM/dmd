@@ -891,20 +891,10 @@ Returns: 32, 64 or throws an Exception
 */
 auto detectModel()
 {
-    string uname;
-    if (detectOS == "solaris")
-        uname = ["isainfo", "-n"].execute.output;
-    else if (detectOS == "windows")
-        uname = ["wmic", "OS", "get", "OSArchitecture"].execute.output;
-    else
-        uname = ["uname", "-m"].execute.output;
-
-    if (uname.canFind("x86_64", "amd64", "64-bit", "64-Bit", "64 bit"))
-        return "64";
-    if (uname.canFind("i386", "i586", "i686", "32-bit", "32-Bit", "32 bit"))
-        return "32";
-
-    throw new Exception(`Cannot figure 32/64 model from "` ~ uname ~ `"`);
+    if ((void*).sizeof == 8)
+		return "64";
+	else
+		return "32";
 }
 
 /**
