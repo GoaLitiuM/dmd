@@ -902,7 +902,15 @@ auto detectModel()
     if (detectOS == "solaris")
         uname = ["isainfo", "-n"].execute.output;
     else if (detectOS == "windows")
-        uname = ["wmic", "OS", "get", "OSArchitecture"].execute.output;
+    {
+        version (Windows)
+        {
+            import core.sys.windows.winbase;
+            int is64;
+            if (IsWow64Process(GetCurrentProcess(), &is64))
+                return is64 ? "64" : "32";
+        }
+    }
     else
         uname = ["uname", "-m"].execute.output;
 
